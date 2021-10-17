@@ -9,7 +9,7 @@ f = pd.read_csv('data.csv')
 X = np.array(f.get('km'))
 Y = np.array(f.get('price'))
 
-X = (X  - X.mean())/X.std()
+X = (X  - X.mean()) / X.std()
 
 tmp_Q_0 = 0.0
 tmp_Q_1 = 0.0
@@ -30,3 +30,9 @@ for i in range(100):
     
 with open('tmp.csv', 'w') as f_k:
     f_k.write(f'{tmp_Q_0},{tmp_Q_1}')
+
+plt.plot(X, Y, 'b.')
+plt.plot(X, tmp_Q_0 + X * tmp_Q_1)
+plt.xlabel('km')
+plt.ylabel('price')
+plt.show()
