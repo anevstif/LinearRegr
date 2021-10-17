@@ -14,11 +14,12 @@ X = (X  - X.mean()) / X.std()
 tmp_Q_0 = 0.0
 tmp_Q_1 = 0.0
 learningRate = 0.05
+iter = 100
 
 def estimatePrice(mileage, q_0, q_1):
     return (q_0 + (q_1 * mileage))
 
-for i in range(100):
+for i in range(iter):
     sum0 = 0.0
     sum1 = 0.0
     for j in range(len(X)):
