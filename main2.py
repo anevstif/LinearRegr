@@ -9,7 +9,7 @@ f = pd.read_csv('data.csv')
 X = np.array(f.get('km'))
 Y = np.array(f.get('price'))
 
-Xnorm = (X  - X.mean()) / X.std()
+Xnorm = X / max(X)
 
 tmp_Q_0 = 0.0
 tmp_Q_1 = 0.0
@@ -27,14 +27,18 @@ for i in range(iter):
         sum1 = sum1 + (estimatePrice(Xnorm[j], tmp_Q_0, tmp_Q_1) - Y[j]) * Xnorm[j]
     tmp_Q_0 = tmp_Q_0 - learningRate * sum0 / len(X)
     tmp_Q_1 = tmp_Q_1 - learningRate * sum1 / len(X)
-    print(f'{tmp_Q_0}, {tmp_Q_1}')  
     
-with open('tmp.csv', 'w') as f_k:
-    f_k.write(f'{tmp_Q_0},{tmp_Q_1}')
-
 plt.plot(X, Y, 'b.')
 plt.plot(X, tmp_Q_0 + Xnorm  * tmp_Q_1)
 plt.xlabel('km')
 plt.ylabel('price')
 plt.title('Regr')
 plt.show()
+
+tmp_Q_1 = tmp_Q_1 / max(X)
+
+with open('tmp.csv', 'w') as f_k:
+    f_k.write(f'{tmp_Q_0}, {tmp_Q_1}')
+
+e = (sum((estimatePrice(X, tmp_Q_0, tmp_Q_1) - Y)**(2)) / len(X))**(0.5)
+print(f'Среднее квадратичное отклонение = {e}')
